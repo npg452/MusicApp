@@ -17,13 +17,26 @@
         android:text="Now Playing"
         android:textColor="@color/white"
         android:textSize="24sp"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="16dp"/>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:id="@+id/song_cover_image_view"
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:id="@+id/song_cover_image_view"
+            android:layout_gravity="center"
         />
+        <ImageView
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:id="@+id/song_gif_image_view"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+            />
+    </FrameLayout>
 
     <TextView
         android:layout_width="wrap_content"
