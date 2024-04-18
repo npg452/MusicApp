@@ -3,6 +3,7 @@ package com.example.musicstream
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.PopupMenu
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +16,11 @@ import com.example.musicstream.adapter.CategoryAdapter
 import com.example.musicstream.adapter.SectionSongListAdapter
 import com.example.musicstream.databinding.ActivityMainBinding
 import com.example.musicstream.models.CategoryModel
+import com.example.musicstream.models.SongModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.toObjects
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +34,35 @@ class MainActivity : AppCompatActivity() {
         getCategories()
         setupSection("section_1", binding.section1MainLayout, binding.section1Title, binding.section1RecyclerView)
         setupSection("section_2", binding.section2MainLayout, binding.section2Title, binding.section2RecyclerView)
+        setupSection("section_3", binding.section3MainLayout, binding.section3Title, binding.section3RecyclerView)
+        setupMostlyPlayed("mostly_player", binding.mostlyPlayedMainLayout, binding.mostlyPlayedTitle, binding.mostlyPlayedRecyclerView)
+
+        binding.optionBtn.setOnClickListener {
+            showPopupMenu()
+        }
+    }
+
+    fun showPopupMenu(){
+        val popupMenu = PopupMenu(this,binding.optionBtn)
+        val inflator = popupMenu.menuInflater
+        inflator.inflate(R.menu.option_menu, popupMenu.menu)
+        popupMenu.show()
+        popupMenu.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.logout -> {
+                    logout()
+                    true
+                }
+            }
+            false
+        }
+    }
+
+    fun logout(){
+        MyExoplayer.getInstance()?.release()
+        FirebaseAuth.getInstance().signOut()
+        startActivity(Intent(this,LoginActivity::class.java))
+        finish()
     }
 
     override fun onResume() {
@@ -83,6 +117,36 @@ class MainActivity : AppCompatActivity() {
                         startActivity(Intent(this@MainActivity, SongsListActivity::class.java))
                     }
                 }
+            }
+    }
+
+    fun setupMostlyPlayed(id : String, mainLayout : RelativeLayout, titleView : TextView, recyclerView: RecyclerView){
+        FirebaseFirestore.getInstance().collection("sections")
+            .document(id)
+            .get().addOnSuccessListener {
+                //get most played songs
+                FirebaseFirestore.getInstance().collection("songs")
+                    .orderBy("count", Query.Direction.DESCENDING)
+                    .limit(5)
+                    .get().addOnSuccessListener {songListSnapshot-> // lay id bai hat co luot nghe cao nhat
+                        val songModelList = songListSnapshot.toObjects<SongModel>()
+                        val songIdList = songModelList.map {
+                            it.id
+                        }.toList()
+                        val section = it.toObject(CategoryModel::class.java)
+                        section?.apply {
+                            section.songs = songIdList
+                            mainLayout.visibility = View.VISIBLE
+                            titleView.text = name
+                            recyclerView.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+                            recyclerView.adapter = SectionSongListAdapter(songs)
+                            mainLayout.setOnClickListener {
+                                SongsListActivity.category = section
+                                startActivity(Intent(this@MainActivity, SongsListActivity::class.java))
+                            }
+                        }
+                    }
+
             }
     }
 }

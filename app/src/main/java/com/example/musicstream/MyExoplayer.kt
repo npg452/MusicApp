@@ -25,6 +25,7 @@ object MyExoplayer {
         if (currentSong!=song){
             //Its a new song so start playing
             currentSong = song
+            updateCount()
             currentSong?.url?.apply {
                 val mediaItem = MediaItem.fromUri(this)
                 exoPlayer?.setMediaItem(mediaItem)
