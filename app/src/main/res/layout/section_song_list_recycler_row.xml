@@ -18,7 +18,7 @@
         android:layout_marginTop="8dp"
         android:text="Song name"
         android:textSize="18sp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:id="@+id/song_title_text_view"/>
 
     <TextView
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Song subtitle"
-        android:textColor="@color/textWhite"
+        android:textColor="@color/black"
         android:id="@+id/song_subtitle_text_view"/>
 
 </LinearLayout>

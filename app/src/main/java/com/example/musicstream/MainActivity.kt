@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             false
         }
     }
-
+//hello
     fun logout(){
         MyExoplayer.getInstance()?.release()
         FirebaseAuth.getInstance().signOut()
