@@ -40,6 +40,20 @@ class MainActivity : AppCompatActivity() {
         binding.optionBtn.setOnClickListener {
             showPopupMenu()
         }
+
+        binding.homeBtn.setOnClickListener {
+            startActivity(Intent(this@MainActivity, MainActivity::class.java))
+        }
+        binding.playlistBtn.setOnClickListener {
+            startActivity(Intent(this@MainActivity, PlaylistActivity::class.java))
+        }
+        binding.favouriteBtn.setOnClickListener {
+            startActivity(Intent(this@MainActivity, FavouriteActivity::class.java))
+        }
+        binding.searchBtn.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SearchActivity::class.java))
+        }
+
     }
 
     fun showPopupMenu(){

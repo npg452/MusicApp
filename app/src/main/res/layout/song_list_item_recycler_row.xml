@@ -29,7 +29,10 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         android:id="@+id/song_title_text_view"/>
-    <TextView
+
+
+
+        <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Song subtitle"
