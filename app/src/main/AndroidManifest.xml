@@ -10,8 +10,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        android:theme="@style/Theme.MusicStream"
         tools:targetApi="31">
+        <activity
+            android:name=".SongList"
+            android:exported="false" />
+        <activity
+            android:name=".SongListActivity"
+            android:exported="false" />
         <activity
             android:name=".FavouriteActivity"
             android:exported="false" />
@@ -20,10 +26,9 @@
             android:exported="false" />
         <activity
             android:name=".PlaylistDetails"
-            android:exported="false" />
-        <activity
-            android:name=".add_playlist_dialog"
-            android:exported="false" />
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".add_playlist_dialog" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".PlaylistActivity"
             android:exported="false" />
@@ -42,8 +47,7 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+            android:theme="@style/Theme.MusicStream">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

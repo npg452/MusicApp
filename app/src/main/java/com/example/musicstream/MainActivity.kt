@@ -2,6 +2,7 @@ package com.example.musicstream
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.RelativeLayout
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.playlistBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity, PlaylistActivity::class.java))
+
         }
         binding.favouriteBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity, FavouriteActivity::class.java))

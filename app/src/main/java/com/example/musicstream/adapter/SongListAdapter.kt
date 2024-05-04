@@ -12,13 +12,15 @@ import com.example.musicstream.PlayerActivity
 import com.example.musicstream.SongsListActivity
 import com.example.musicstream.databinding.SongListItemRecyclerRowBinding
 import com.example.musicstream.models.SongModel
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
-class SongsListAdapter(private val songIdList: List<String>) :
-    RecyclerView.Adapter<SongsListAdapter.MyViewHolder>(){
-    class MyViewHolder(private val binding: SongListItemRecyclerRowBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bindData(songId: String){
-            FirebaseFirestore.getInstance().collection("songs")
+class SongListAdapter(private val songIdList: List<String>, private val playlistId: String) :
+    RecyclerView.Adapter<SongListAdapter.SongViewHolder>(){
+    private val db = FirebaseFirestore.getInstance()
+    class SongViewHolder(private val binding: SongListItemRecyclerRowBinding, private val db: FirebaseFirestore) : RecyclerView.ViewHolder(binding.root){
+        fun bindData(songId: String, playlistId: String){
+            db.collection("songs")
                 .document(songId).get()
                 .addOnSuccessListener {
                     val song = it.toObject(SongModel::class.java)
@@ -31,26 +33,33 @@ class SongsListAdapter(private val songIdList: List<String>) :
                             )
                             .into(binding.songCoverImageView)
                         binding.root.setOnClickListener {
-                            MyExoplayer.startPlaying(binding.root.context,song)
-                            it.context.startActivity(Intent(it.context,PlayerActivity::class.java))
+                            addToPlaylist(songId, playlistId)
                         }
                     }
                 }
         }
+        private fun addToPlaylist(songId: String, playlistId: String) {
+            db.collection("playlists").document(playlistId)
+                .update("songs", FieldValue.arrayUnion(songId))
+                .addOnSuccessListener {
+                    // Song added to playlist
+                }
+                .addOnFailureListener { e ->
+                    // Log the exception or show some feedback to the user
+                }
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongListAdapter.SongViewHolder {
         val binding = SongListItemRecyclerRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(binding)
+        return SongListAdapter.SongViewHolder(binding, db)
     }
 
     override fun getItemCount(): Int {
         return songIdList.size
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bindData(songIdList[position])
+    override fun onBindViewHolder(holder: SongListAdapter.SongViewHolder, position: Int) {
+        holder.bindData(songIdList[position], playlistId)
     }
-
-
 }

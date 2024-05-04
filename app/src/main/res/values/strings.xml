@@ -10,5 +10,8 @@
     <string name="yourname">Your Name</string>
     <string name="add_song">Add</string>
     <string name="remove_all">Remove All</string>
-
+    <string name="song_img">Song Image</string>
+    <string name="playlist_name">Playlist Name</string>
+    <string name="playlist_delete">Delete</string>
+    <string name="song_list">Song List</string>
 </resources>

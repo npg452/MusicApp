@@ -4,48 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="30dp"
     android:orientation="vertical">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/playlistName"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/playlist_name"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:layout_marginStart="30dp"
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
+                    android:textColorHint="#000000"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/yourName"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/yourname"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:layout_marginStart="30dp"
+                    android:textColorHint="#000000"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:textColor="@color/black"
         android:layout_marginTop="10dp"
-        app:startIconDrawable="@drawable/playlist_icon"
-        app:startIconTint="@color/cool_pink"
-        android:hint="@string/playlistname"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/playlistName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/playlistname"
-            android:inputType="text"
-            android:maxLength="40"
-            android:singleLine="true"
-            tools:ignore="TouchTargetSizeCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="10dp"
-        app:startIconDrawable="@drawable/playlist_icon"
-        app:startIconTint="@color/cool_pink"
-        android:hint="@string/yourname"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/yourName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/yourname"
-            android:inputType="text"
-            android:maxLength="40"
-            android:singleLine="true"
-            tools:ignore="TouchTargetSizeCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
-
+        android:layout_marginStart="230dp"
+        android:text="Add"
+        tools:ignore="HardcodedText" />
 </LinearLayout>
