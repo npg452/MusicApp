@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         setupSection("section_1", binding.section1MainLayout, binding.section1Title, binding.section1RecyclerView)
         setupSection("section_2", binding.section2MainLayout, binding.section2Title, binding.section2RecyclerView)
         setupSection("section_3", binding.section3MainLayout, binding.section3Title, binding.section3RecyclerView)
+        setupSection("section_4", binding.section4MainLayout, binding.section4Title, binding.section4RecyclerView)
         setupMostlyPlayed("mostly_player", binding.mostlyPlayedMainLayout, binding.mostlyPlayedTitle, binding.mostlyPlayedRecyclerView)
 
         binding.optionBtn.setOnClickListener {

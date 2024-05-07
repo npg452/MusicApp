@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicstream.PlaylistActivity
 import com.example.musicstream.PlaylistDetails
+import com.example.musicstream.SongList
 import com.example.musicstream.databinding.PlaylistViewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.firestore.FirebaseFirestore
@@ -61,6 +62,13 @@ class PlaylistViewAdapter(private val  context: Context, private var playlistLis
             intent.putExtra("playlistName", playlistList[position])
             ContextCompat.startActivity(context,intent, null)
         }
+//        holder.root.setOnClickListener {
+//            // Tạo Intent và truyền playlistId vào đó
+//            val playlistId = tempList[position] // Lấy playlistId từ tempList
+//            val intent = Intent(context, SongList::class.java)
+//            intent.putExtra("playlistId", playlistId)
+//            context.startActivity(intent)
+//        }
 
 
     }
