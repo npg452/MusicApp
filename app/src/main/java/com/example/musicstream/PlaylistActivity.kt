@@ -65,6 +65,10 @@ class PlaylistActivity : AppCompatActivity() {
             }
             adapter.notifyDataSetChanged()
         }
+//        val songId = intent.getStringExtra("songId")
+//        if (songId != null) {
+//            // Thêm ID của bài hát vào playlist
+//        }
 
     }
 
@@ -87,9 +91,10 @@ class PlaylistActivity : AppCompatActivity() {
                 "playlistName" to playlistName,
                 "yourName" to yourName
             )
+
             db.collection("playlists").add(data).addOnSuccessListener { documentReference ->
                 val docId = documentReference.id
-                documentReference.update("id", docId)
+                documentReference.update("playlistId", docId)
                 tempList.add(docId) // store the document id instead of playlist name
                 adapter.notifyDataSetChanged()
                 alertDialog.dismiss() // thoat dialog
