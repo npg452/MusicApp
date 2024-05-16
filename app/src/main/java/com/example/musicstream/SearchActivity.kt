@@ -40,9 +40,9 @@ class SearchActivity : AppCompatActivity() {
         binding.favouriteBtn.setOnClickListener {
             startActivity(Intent(this@SearchActivity, FavouriteActivity::class.java))
         }
-        binding.searchBtn.setOnClickListener {
-            startActivity(Intent(this@SearchActivity, SearchActivity::class.java))
-        }
+//        binding.searchBtn.setOnClickListener {
+//            startActivity(Intent(this@SearchActivity, SearchActivity::class.java))
+//        }
 
 
 

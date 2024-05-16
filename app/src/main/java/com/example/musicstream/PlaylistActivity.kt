@@ -1,5 +1,6 @@
 package com.example.musicstream
 
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -35,7 +36,18 @@ class PlaylistActivity : AppCompatActivity() {
         binding = ActivityPlaylistBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        binding.homeBtn.setOnClickListener {
+            startActivity(Intent(this@PlaylistActivity, MainActivity::class.java))
+        }
+//        binding.playlistBtn.setOnClickListener {
+//            startActivity(Intent(this@PlaylistActivity, PlaylistActivity::class.java))
+//        }
+        binding.favouriteBtn.setOnClickListener {
+            startActivity(Intent(this@PlaylistActivity, FavouriteActivity::class.java))
+        }
+        binding.searchBtn.setOnClickListener {
+            startActivity(Intent(this@PlaylistActivity, SearchActivity::class.java))
+        }
 
         binding.playlistRV.setHasFixedSize(true)
         binding.playlistRV.setItemViewCacheSize(13)
@@ -51,7 +63,8 @@ class PlaylistActivity : AppCompatActivity() {
         binding.addPlaylistBtn.setOnClickListener {
             customAlertDialog()
         }
-        db.collection("playlists").get().addOnSuccessListener { result ->
+        val userId = getUserId()
+        db.collection("playlists").whereEqualTo("userId", userId).get().addOnSuccessListener { result ->
             list_Playlist.clear()
             for (document in result) {
                 val playlistName = document.getString("playlistName")
@@ -66,6 +79,11 @@ class PlaylistActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         }
 
+    }
+
+    fun getUserId(): String?{
+        val sharedPref = getSharedPreferences("MyApp", Context.MODE_PRIVATE)
+        return sharedPref.getString("userId", null)
     }
 
     private fun customAlertDialog() {
@@ -83,9 +101,11 @@ class PlaylistActivity : AppCompatActivity() {
         addButton.setOnClickListener {
             val playlistName = playlistNameInput.text.toString()
             val yourName = yourNameInput.text.toString()
+            val userId = getUserId()
             val data = hashMapOf(
                 "playlistName" to playlistName,
-                "yourName" to yourName
+                "yourName" to yourName,
+                "userId" to userId
             )
 
             db.collection("playlists").add(data).addOnSuccessListener { documentReference ->
@@ -106,25 +126,25 @@ class PlaylistActivity : AppCompatActivity() {
 
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        showPlayerView()
-//    }
-//    private fun showPlayerView(){
-//        binding.playerView.setOnClickListener {
-//            startActivity(Intent(this, PlayerActivity::class.java))
-//        }
-//        MyExoplayer.getCurrentSong()?.let {
-//            binding.playerView.visibility = View.VISIBLE
-//            binding.songTitleTextView.text = it.title
-//            Glide.with(binding.songCoverImageView).load(it.coverUrl)
-//                .apply(
-//                    RequestOptions().transform(RoundedCorners(32)) // bo tro goc anh
-//                ).into(binding.songCoverImageView)
-//        } ?: run{
-//            binding.playerView.visibility = View.GONE
-//        }
-//    }
+    override fun onResume() {
+        super.onResume()
+        showPlayerView()
+    }
+    private fun showPlayerView(){
+        binding.playerView.setOnClickListener {
+            startActivity(Intent(this, PlayerActivity::class.java))
+        }
+        MyExoplayer.getCurrentSong()?.let {
+            binding.playerView.visibility = View.VISIBLE
+            binding.songTitleTextView.text = it.title
+            Glide.with(binding.songCoverImageView).load(it.coverUrl)
+                .apply(
+                    RequestOptions().transform(RoundedCorners(32)) // bo tro goc anh
+                ).into(binding.songCoverImageView)
+        } ?: run{
+            binding.playerView.visibility = View.GONE
+        }
+    }
 
 
 }

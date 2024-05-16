@@ -19,7 +19,7 @@
 
 
         <TextView
-            android:id="@+id/playlistNamePD"
+            android:id="@+id/moreInfoPD"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:contentDescription="@string/playlist"
@@ -48,16 +48,16 @@
             android:layout_height="match_parent"
             android:src="@drawable/music_player_icon_slash_screen"
             tools:ignore="ImageContrastCheck" />
-        <TextView
-            android:id="@+id/moreInfoPD"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/playlistname"
-            android:gravity="center|center_vertical"
-            android:layout_marginHorizontal="5dp"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:background="@color/cool_pink"/>
+<!--        <TextView-->
+<!--            android:id="@+id/moreInfoPD"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:text="@string/playlistname"-->
+<!--            android:gravity="center|center_vertical"-->
+<!--            android:layout_marginHorizontal="5dp"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="18sp"-->
+<!--            android:background="@color/cool_pink"/>-->
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -70,11 +70,44 @@
         android:scrollbarThumbVertical="@drawable/scroll_bar_icon"
         android:scrollbars="vertical"
         android:paddingBottom="280dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        />
 
 
     <!--for buttons-->
+    <RelativeLayout
+        android:id="@+id/player_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button"
+        android:layout_below="@+id/playlistDetailsRV"
+        android:background="@drawable/rounded_corner"
+        android:padding="5dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="721dp">
+
+        <ImageView
+            android:id="@+id/song_cover_image_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:id="@+id/song_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/song_cover_image_view"
+            android:paddingStart="16dp"
+            android:text="Đang phát : "
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+
+    </RelativeLayout>
+
     <LinearLayout
+        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

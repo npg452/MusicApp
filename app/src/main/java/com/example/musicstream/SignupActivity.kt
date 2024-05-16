@@ -1,5 +1,6 @@
 package com.example.musicstream
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
@@ -48,12 +49,22 @@ class SignupActivity : AppCompatActivity() {
         }
 
     }
-
+    fun saveUserId(userId: String){
+        val sharedPref = getSharedPreferences("MyApp", Context.MODE_PRIVATE)
+        with(sharedPref.edit()){
+            putString("userId", userId)
+            apply()
+        }
+    }
     fun createAccountWithFireBase(email: String, password: String){
         setInProgress(true)
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,password)
             .addOnSuccessListener {
                 setInProgress(false)
+                val userId = it.user?.uid
+                if (userId != null){
+                    saveUserId(userId)
+                }
                 Toast.makeText(applicationContext,"Tạo tài khoản thành công", Toast.LENGTH_SHORT).show()
                 finish()
             }.addOnFailureListener {

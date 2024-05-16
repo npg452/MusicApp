@@ -1,5 +1,6 @@
 package com.example.musicstream
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
@@ -45,11 +46,22 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    fun saveUserId(userId: String){
+        val sharedPref = getSharedPreferences("MyApp", Context.MODE_PRIVATE)
+        with(sharedPref.edit()){
+            putString("userId", userId)
+            apply()
+        }
+    }
     fun loginWithFireBase(email: String, password: String){
         setInProgress(true)
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
             .addOnSuccessListener {
                 setInProgress(false)
+                val userId = it.user?.uid
+                if (userId != null){
+                    saveUserId(userId)
+                }
                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                 finish()
             }.addOnFailureListener {

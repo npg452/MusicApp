@@ -31,7 +31,7 @@
             android:textStyle="bold"
             android:fontFamily="monospace"
             android:paddingTop="8dp"
-            android:text="Khám phá những bản nhạc mới nhất cùng ..."/>
+            android:text="Khám phá những bản nhạc mới nhất cùng chúng tôi"/>
     </LinearLayout>
 
     <LinearLayout
@@ -74,7 +74,8 @@
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:text="Đăng nhập"
-            android:background="@drawable/rounded_corner"
+            android:textColor="@color/black"
+            android:background="#A39999"
             android:id="@+id/login_btn"/>
 
         <ProgressBar

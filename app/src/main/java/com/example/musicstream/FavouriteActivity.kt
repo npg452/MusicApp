@@ -28,9 +28,9 @@ class FavouriteActivity : AppCompatActivity() {
         binding.favouriteBtn.setOnClickListener {
             startActivity(Intent(this@FavouriteActivity, FavouriteActivity::class.java))
         }
-        binding.searchBtn.setOnClickListener {
-            startActivity(Intent(this@FavouriteActivity, SearchActivity::class.java))
-        }
+//        binding.searchBtn.setOnClickListener {
+//            startActivity(Intent(this@FavouriteActivity, SearchActivity::class.java))
+//        }
 
     }
     override fun onResume() {

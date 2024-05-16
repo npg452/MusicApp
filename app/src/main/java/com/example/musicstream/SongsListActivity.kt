@@ -1,6 +1,8 @@
 package com.example.musicstream
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,6 +29,19 @@ class SongsListActivity : AppCompatActivity() {
         binding = ActivitySongsListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.homeBtn.setOnClickListener {
+            startActivity(Intent(this@SongsListActivity, MainActivity::class.java))
+        }
+        binding.playlistBtn.setOnClickListener {
+            startActivity(Intent(this@SongsListActivity, PlaylistActivity::class.java))
+        }
+        binding.favouriteBtn.setOnClickListener {
+            startActivity(Intent(this@SongsListActivity, FavouriteActivity::class.java))
+        }
+        binding.searchBtn.setOnClickListener {
+            startActivity(Intent(this@SongsListActivity, SearchActivity::class.java))
+        }
+
         binding.nameTextView.text = category.name
 
         Glide.with(binding.coverImageView).load(category.coverUrl)
@@ -43,4 +58,24 @@ class SongsListActivity : AppCompatActivity() {
         binding.songsListRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.songsListRecyclerView.adapter = songsListAdapter
     }
+    override fun onResume() {
+        super.onResume()
+        showPlayerView()
+    }
+    private fun showPlayerView(){
+        binding.playerView.setOnClickListener {
+            startActivity(Intent(this, PlayerActivity::class.java))
+        }
+        MyExoplayer.getCurrentSong()?.let {
+            binding.playerView.visibility = View.VISIBLE
+            binding.songTitleTextView.text = it.title
+            Glide.with(binding.songCoverImageView).load(it.coverUrl)
+                .apply(
+                    RequestOptions().transform(RoundedCorners(32)) // bo tro goc anh
+                ).into(binding.songCoverImageView)
+        } ?: run{
+            binding.playerView.visibility = View.GONE
+        }
+    }
+
 }

@@ -43,9 +43,9 @@ class MainActivity : AppCompatActivity() {
             showPopupMenu()
         }
 
-        binding.homeBtn.setOnClickListener {
-            startActivity(Intent(this@MainActivity, MainActivity::class.java))
-        }
+//        binding.homeBtn.setOnClickListener {
+//            startActivity(Intent(this@MainActivity, MainActivity::class.java))
+//        }
         binding.playlistBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity, PlaylistActivity::class.java))
 
