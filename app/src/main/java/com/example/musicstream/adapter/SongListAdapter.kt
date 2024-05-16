@@ -18,11 +18,11 @@ import com.example.musicstream.models.SongModel
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
-class SongListAdapter(private val songIdList: List<String>, private val playlistId: String) :
+class SongListAdapter(private val songIdList: List<String>, private val playlistId: String,private val playlistName: String) :
     RecyclerView.Adapter<SongListAdapter.SongViewHolder>(){
     private val db = FirebaseFirestore.getInstance()
     class SongViewHolder(private val binding: SongListItemRecyclerRowBinding, private val db: FirebaseFirestore) : RecyclerView.ViewHolder(binding.root){
-        fun bindData(id: String, playlistId: String){
+        fun bindData(id: String, playlistId: String,playlistName: String){
             db.collection("songs")
                 .document(id).get()
                 .addOnSuccessListener {
@@ -36,12 +36,12 @@ class SongListAdapter(private val songIdList: List<String>, private val playlist
                             )
                             .into(binding.songCoverImageView)
                         binding.root.setOnClickListener {
-                            addToPlaylist(id, playlistId)
+                            addToPlaylist(id, playlistId, playlistName )
                         }
                     }
                 }
         }
-        private fun addToPlaylist(id : String, playlistId: String) {
+        private fun addToPlaylist(id : String, playlistId: String ,playlistName:String) {
             if (playlistId.isNotEmpty()) {
                 db.collection("playlists").document(playlistId)
                     .update("songs", FieldValue.arrayUnion(id))
@@ -50,6 +50,7 @@ class SongListAdapter(private val songIdList: List<String>, private val playlist
                         Log.d("AddToPlaylist", "Song added to playlist: $id")
                         val intent = Intent(binding.root.context, PlaylistDetails::class.java)
                         intent.putExtra("playlistId", playlistId)
+                        intent.putExtra("playlistName", playlistName)
                         binding.root.context.startActivity(intent)
                     }
                     .addOnFailureListener { e ->
@@ -75,7 +76,7 @@ class SongListAdapter(private val songIdList: List<String>, private val playlist
     override fun onBindViewHolder(holder: SongListAdapter.SongViewHolder, position: Int) {
 //        holder.bindData(songIdList[position], playlistId)
         val songId = songIdList[position]
-        holder.bindData(songId, playlistId)
+        holder.bindData(songId, playlistId,playlistName)
 
         holder.itemView.setOnClickListener {
             // Truyền ID của bài hát khi người dùng bấm vào

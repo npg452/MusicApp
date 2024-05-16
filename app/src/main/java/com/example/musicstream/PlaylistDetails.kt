@@ -28,6 +28,7 @@ class PlaylistDetails : AppCompatActivity() {
         binding.moreInfoPD.text = playlistName
 
         val playlistId = intent.getStringExtra("playlistId") ?: ""
+        Log.d("1111111",playlistId)
 
         loadPlaylistSongs(playlistId)
 
@@ -39,7 +40,7 @@ class PlaylistDetails : AppCompatActivity() {
             val playlistId = intent.getStringExtra("playlistId")
             val playlistName = intent.getStringExtra("playlistName")
             val songId = intent.getStringExtra("songId")
-
+            Log.d("testing", playlistId.toString())
             val intent = Intent(this, SongList::class.java)
             intent.putExtra("playlistId", playlistId)
             intent.putExtra("playlistName", playlistName)

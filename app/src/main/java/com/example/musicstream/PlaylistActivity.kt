@@ -3,6 +3,7 @@ package com.example.musicstream
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -15,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.musicstream.adapter.PlaylistViewAdapter
 import com.example.musicstream.databinding.ActivityPlaylistBinding
+import com.example.musicstream.models.Playlists
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -25,7 +27,7 @@ class PlaylistActivity : AppCompatActivity() {
     private lateinit var adapter: PlaylistViewAdapter
 
     private val tempList = ArrayList<String>()
-
+    private val list_Playlist = ArrayList<Playlists>()
     private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,37 +40,31 @@ class PlaylistActivity : AppCompatActivity() {
         binding.playlistRV.setHasFixedSize(true)
         binding.playlistRV.setItemViewCacheSize(13)
         binding.playlistRV.layoutManager = GridLayoutManager(this@PlaylistActivity,2)
-        adapter = PlaylistViewAdapter(this, tempList, tempList)
+        adapter = PlaylistViewAdapter(
+            context = this,
+            list = list_Playlist,
+            tempList = tempList
+        )
         binding.playlistRV.adapter = adapter
 
-//        binding.homeBtn.setOnClickListener {
-//            startActivity(Intent(this@PlaylistActivity, MainActivity::class.java))
-//        }
-//        binding.playlistBtn.setOnClickListener {
-//            startActivity(Intent(this@PlaylistActivity, PlaylistActivity::class.java))
-//        }
-//        binding.favouriteBtn.setOnClickListener {
-//            startActivity(Intent(this@PlaylistActivity, FavouriteActivity::class.java))
-//        }
-//        binding.searchBtn.setOnClickListener {
-//            startActivity(Intent(this@PlaylistActivity, SearchActivity::class.java))
-//        }
-//
+
         binding.addPlaylistBtn.setOnClickListener {
             customAlertDialog()
         }
         db.collection("playlists").get().addOnSuccessListener { result ->
-            tempList.clear()
+            list_Playlist.clear()
             for (document in result) {
                 val playlistName = document.getString("playlistName")
-                playlistName?.let { tempList.add(it) }
+                val playlistId = document.getString("playlistId")
+                val playlists = Playlists(
+                        playlistId = playlistId,
+                        playlistName = playlistName
+                    )
+
+                list_Playlist.add(playlists)
             }
             adapter.notifyDataSetChanged()
         }
-//        val songId = intent.getStringExtra("songId")
-//        if (songId != null) {
-//            // Thêm ID của bài hát vào playlist
-//        }
 
     }
 
@@ -95,10 +91,16 @@ class PlaylistActivity : AppCompatActivity() {
             db.collection("playlists").add(data).addOnSuccessListener { documentReference ->
                 val docId = documentReference.id
                 documentReference.update("playlistId", docId)
-                tempList.add(docId) // store the document id instead of playlist name
+                val new_playlist = Playlists(
+                    playlistId = docId,
+                    playlistName = playlistName
+                )
+                list_Playlist.add(new_playlist)
                 adapter.notifyDataSetChanged()
+                Log.d("docId", docId.toString())
                 alertDialog.dismiss() // thoat dialog
             }
+
         }
 
 

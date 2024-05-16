@@ -1,5 +1,6 @@
 package com.example.musicstream
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,9 +19,11 @@ class SongList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySongListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val playlistName  = intent.getStringExtra("playlistName")
+
 
         val playlistId = intent.getStringExtra("playlistId") ?: ""
-        adapter = SongListAdapter(songIdList, playlistId)
+        adapter = SongListAdapter(songIdList, playlistId,playlistName.toString())
 
         binding.songListRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.songListRecyclerView.adapter = adapter

@@ -12,11 +12,16 @@ import com.example.musicstream.PlaylistActivity
 import com.example.musicstream.PlaylistDetails
 import com.example.musicstream.SongList
 import com.example.musicstream.databinding.PlaylistViewBinding
+import com.example.musicstream.models.Playlists
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.firestore.FirebaseFirestore
 
 
-class PlaylistViewAdapter(private val  context: Context, private var playlistList: ArrayList<String>, private var tempList: ArrayList<String>) : RecyclerView.Adapter<PlaylistViewAdapter.MyHolder>() {
+class PlaylistViewAdapter(
+    private val  context: Context,
+    private var list:ArrayList<Playlists>,
+    private var tempList: ArrayList<String>
+) : RecyclerView.Adapter<PlaylistViewAdapter.MyHolder>() {
     class MyHolder(binding: PlaylistViewBinding) :RecyclerView.ViewHolder(binding.root){
         val image = binding.playlistImg
         val name = binding.playlistName
@@ -29,29 +34,33 @@ class PlaylistViewAdapter(private val  context: Context, private var playlistLis
     }
 
     override fun getItemCount(): Int {
-        return playlistList.size
+//        return playlistList.size
+        return list.size
     }
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
-        holder.name.text = playlistList[position]
+//        holder.name.text = playlistList[position]
+        holder.name.text = list[position].playlistName.toString()
         holder.name.isSelected = true
 
         holder.deleteBtn.setOnClickListener {
-            val playlistId = tempList[holder.adapterPosition] // Lấy ID của tài liệu từ tempList
+            val playlistId = list[position].playlistId // Lấy ID của tài liệu từ tempList
             val db = FirebaseFirestore.getInstance()
 
             // Xóa tài liệu từ Firestore
-            db.collection("playlists").document(playlistId).delete()
-                .addOnSuccessListener {
-                    // Xóa ID khỏi tempList
-                    tempList.removeAt(holder.adapterPosition)
-                    // Thông báo cho Adapter là có sự thay đổi dữ liệu
-                    notifyItemRemoved(holder.adapterPosition)
-                }
-                .addOnFailureListener { e ->
-                    // Xử lý nếu việc xóa thất bại
-                    Log.e(TAG, "Error deleting document", e)
-                }
+            if (playlistId != null) {
+                db.collection("playlists").document(playlistId).delete()
+                    .addOnSuccessListener {
+                        // Xóa ID khỏi tempList
+                        list.removeAt(holder.adapterPosition)
+                        // Thông báo cho Adapter là có sự thay đổi dữ liệu
+                        notifyItemRemoved(holder.adapterPosition)
+                    }
+                    .addOnFailureListener { e ->
+                        // Xử lý nếu việc xóa thất bại
+                        Log.e(TAG, "Error deleting document", e)
+                    }
+            }
 
 
         }
@@ -59,7 +68,11 @@ class PlaylistViewAdapter(private val  context: Context, private var playlistLis
         holder.root.setOnClickListener {
             val intent = Intent(context, PlaylistDetails::class.java)
             intent.putExtra("index", position)
-            intent.putExtra("playlistName", playlistList[position])
+//            intent.putExtra("playlistId", playlistID[position])
+//            intent.putExtra("playlistName", playlistList[position])
+            intent.putExtra("playlistId", list[position].playlistId)
+            intent.putExtra("playlistName", list[position].playlistName)
+//            Log.d("testing",playlistList.toString())
             ContextCompat.startActivity(context,intent, null)
         }
 //        holder.root.setOnClickListener {
