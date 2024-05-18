@@ -14,4 +14,6 @@
     <string name="playlist_name">Playlist Name</string>
     <string name="playlist_delete">Delete</string>
     <string name="song_list">Song List</string>
+    <string name="playing">Đang phát :</string>
+    <string name="more_options">option\n</string>
 </resources>

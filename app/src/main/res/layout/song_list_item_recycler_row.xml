@@ -16,31 +16,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
-        android:layout_toEndOf="@+id/song_cover_image_view">
+        android:layout_toEndOf="@id/song_cover_image_view">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="Song name"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:id="@+id/song_title_text_view"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="Song name"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:id="@+id/song_title_text_view"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Song subtitle"
+                android:textColor="@color/black"
+                android:id="@+id/song_subtitle_text_view"/>
+        </LinearLayout>
 
-        <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Song subtitle"
-        android:textColor="@color/black"
-        android:id="@+id/song_subtitle_text_view"/>
-
+        <ImageView
+            android:id="@+id/option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/more_vert_icon"
+            android:contentDescription="@string/more_options"
+            android:layout_gravity="center_vertical"/>
     </LinearLayout>
-
-
 
 </RelativeLayout>

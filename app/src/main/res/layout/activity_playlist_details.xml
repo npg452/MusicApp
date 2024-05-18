@@ -90,7 +90,8 @@
         <ImageView
             android:id="@+id/song_cover_image_view"
             android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_height="50dp"
+            android:contentDescription="@string/playing" />
 
         <TextView
             android:id="@+id/song_title_text_view"
@@ -99,9 +100,10 @@
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/song_cover_image_view"
             android:paddingStart="16dp"
-            android:text="Đang phát : "
+            android:text="@string/playing"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:ignore="RtlSymmetry" />
 
 
     </RelativeLayout>

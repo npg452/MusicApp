@@ -1,10 +1,14 @@
 package com.example.musicstream
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -32,7 +36,7 @@ class PlaylistDetails : AppCompatActivity() {
         binding.moreInfoPD.text = playlistName
 
         val playlistId = intent.getStringExtra("playlistId") ?: ""
-        Log.d("1111111",playlistId)
+
 
         loadPlaylistSongs(playlistId)
 
@@ -51,6 +55,43 @@ class PlaylistDetails : AppCompatActivity() {
             intent.putExtra("songId", songId)
             startActivity(intent)
         }
+        binding.removeAllPD.setOnClickListener {
+            val alertDialog = AlertDialog.Builder(this)
+                .setTitle("Xoá tất cả bài hát")
+                .setMessage("Bạn muốn xóa tất cả các bài hát có trong playlist ?")
+                .setPositiveButton("Yes", null)
+                .setNegativeButton("No", null)
+                .create()
+
+            alertDialog.setOnShowListener {
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED)
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLUE)
+            }
+
+            alertDialog.show()
+
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val playlistId = intent.getStringExtra("playlistId")
+                if (playlistId != null) {
+                    db.collection("playlists").document(playlistId)
+                        .update("songs", emptyList<String>())
+                        .addOnSuccessListener {
+                            Log.d("RemoveAllSongs", "xoa thanh cong")
+                            loadPlaylistSongs(playlistId)
+
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("RemoveAllSongs", "loi", e)
+                        }
+                }
+                alertDialog.dismiss()
+            }
+
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
+                alertDialog.dismiss()
+            }
+        }
+
 
     }
 
@@ -71,7 +112,7 @@ class PlaylistDetails : AppCompatActivity() {
                                     song?.let { s ->
                                         songs.add(s)
                                         if (songs.size == it.size) {
-                                            val songsListAdapter = PlaylistSongsAdapter(songs)
+                                            val songsListAdapter = PlaylistSongsAdapter(songs, playlistId)
                                             binding.playlistDetailsRV.layoutManager = LinearLayoutManager(this)
                                             binding.playlistDetailsRV.adapter = songsListAdapter
 
@@ -86,7 +127,7 @@ class PlaylistDetails : AppCompatActivity() {
                     Log.e("LoadPlaylistSongs", "Error retrieving songs", e)
                 }
         } else {
-            // Handle the case when playlistId is null or empty
+
         }
     }
 
