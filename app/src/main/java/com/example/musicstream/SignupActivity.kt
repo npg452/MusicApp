@@ -82,4 +82,5 @@ class SignupActivity : AppCompatActivity() {
             binding.progressBar.visibility =View.GONE
         }
     }
+
 }

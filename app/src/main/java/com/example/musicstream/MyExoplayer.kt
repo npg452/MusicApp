@@ -23,7 +23,6 @@ object MyExoplayer {
         exoPlayer = ExoPlayer.Builder(context).build()
 
         if (currentSong!=song){
-            //Its a new song so start playing
             currentSong = song
             updateCount()
             currentSong?.url?.apply {
@@ -54,5 +53,10 @@ object MyExoplayer {
                 }
         }
     }
-
+    fun stopAndRelease() {
+        exoPlayer?.stop()
+        exoPlayer?.release()
+        exoPlayer = null
+        currentSong = null
+    }
 }

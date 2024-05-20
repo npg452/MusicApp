@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -27,10 +28,14 @@ class PlaylistDetails : AppCompatActivity() {
     lateinit var binding: ActivityPlaylistDetailsBinding
     private val db = FirebaseFirestore.getInstance()
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlaylistDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
 
         val playlistName = intent.getStringExtra("playlistName")
         binding.moreInfoPD.text = playlistName

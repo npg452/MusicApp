@@ -50,7 +50,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/more_vert_icon"
             android:contentDescription="@string/more_options"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            />
     </LinearLayout>
 
 </RelativeLayout>
